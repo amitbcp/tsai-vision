@@ -1,4 +1,5 @@
 # MNIST Classifer & Addition
+![img](assign.png)
 
 1. PROBLEM STATEMENT: 
 	The Neural network is designed to train a model, which accepts an MNIST data image and \
@@ -136,3 +137,9 @@ Predicted Number 0
 Predicted Sum 7
 
 ```
+
+### Team
+1. amit.pinaki@gmail.com
+2. rajamannaraanjaram@gmail.com
+3. pranavpandey2511@gmail.com
+4. sreelathaemail@gmail.com
