@@ -37,7 +37,8 @@
 	In most of the classification problems we use Negative log-likelihood as a loss function. \
 	It'll give high penalty for the wrong prediction estimations which helps to reach the global-minima swiftly.
 
-
+### Training Log
+```
 Training Accuracy: 99.62%
 Validation Accuracy: 98.11%
 
@@ -134,3 +135,4 @@ Sum: 7
 Predicted Number 0
 Predicted Sum 7
 
+```
