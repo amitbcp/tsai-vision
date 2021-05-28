@@ -16,7 +16,7 @@ Please click on individual sections for the results
 [Excel](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Backpropagation/Backpropagation.xlsx)
 
 
-# [Architectural Basics (Part 2)(https://github.com/amitbcp/tsai-vision/tree/main/assignment_4/Architecture)
+# [Architectural Basics (Part 2)](https://github.com/amitbcp/tsai-vision/tree/main/assignment_4/Architecture)
 [Notebook](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Architecture/assignemnt_4_solutions.ipynb)<br>
 [Questions Readme](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Architecture/README.md)<br>
 
