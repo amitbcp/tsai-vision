@@ -9,14 +9,17 @@
 | <centre>Rajamannar A K</centre>         | <centre>rajamannaraanjaram@gmail.com</centre>    |
 | <centre>Sree Latha Chopparapu</centre>         | <centre>sreelathaemail@gmail.com</centre>    |
 
-1. # Backpropagation
-[Readme]()<br>
-[Excel]()
+# Backpropagation (Part 1)
+Please click on individual sections for the results
+
+[Readme](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Backpropagation/README.md)<br>
+[Excel](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Backpropagation/Backpropagation.xlsx)
 
 
-2. # Architectural Basics
-[Questions Readme]()<br>
-[Notebook]()
+# Architectural Basics (Part 2)
+[Notebook](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Architecture/assignemnt_4_solutions.ipynb)
+[Questions Readme](https://github.com/amitbcp/tsai-vision/blob/main/assignment_4/Architecture/README.md)<br>
+
 
 ## Model Initialization:
 
