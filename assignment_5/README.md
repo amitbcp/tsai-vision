@@ -165,6 +165,12 @@ Test set: Average loss: 0.0190, Accuracy: 9944/10000 (99.44%)
 
 ### Model Performance:
 
+- Basic Model
 <p align="center">
   <img src="./images/basic.png" width="800" title="hover text">
+</p>
+
+- Final Model
+<p align="center">
+  <img src="./images/augmentation.png" width="800" title="hover text">
 </p>
