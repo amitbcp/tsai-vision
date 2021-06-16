@@ -29,7 +29,7 @@ class Loader:
         use_cuda = torch.cuda.is_available()
         if use_cuda:
             torch.cuda.manual_seed(seed)
-            kwargs = {'batch_size':128, 'pin_memory':True, 'num_workers':4}
+            kwargs = {'batch_size':512, 'pin_memory':True, 'num_workers':4}
         else:
             torch.manual_seed(seed)
             kwargs = {'batch_size': 64}
