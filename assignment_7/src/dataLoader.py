@@ -36,8 +36,9 @@ class Loader:
             kwargs = {'batch_size': 64}
 
         train = CIFAR10(root='./data', train=True,
-                        download=True, transform=trainTransform)
-        test = CIFAR10(root='./data', download=True, transform=simpleTransform)
+                        download=False, transform=trainTransform)
+        test = CIFAR10(root='./data', download=False,
+                       transform=simpleTransform)
 
         train_loader = DataLoader(train, shuffle=True, **kwargs)
         test_loader = DataLoader(test, shuffle=True, **kwargs)

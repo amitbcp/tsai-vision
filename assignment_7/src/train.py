@@ -3,7 +3,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 
-def train(model, device, train_loader, optimizer, train_losses, train_acc):
+def train(model, device, train_loader, optimizer,train_acc,train_losses):
     model.train()
     pbar = tqdm(train_loader)
     correct = 0
@@ -18,7 +18,7 @@ def train(model, device, train_loader, optimizer, train_losses, train_acc):
 
         loss = F.cross_entropy(y_pred, target)
 
-        train_losses.append(loss)
+        train_losses.append(loss.item())
 
         # Backpropagation
         loss.backward()
