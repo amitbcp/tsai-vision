@@ -8,7 +8,7 @@ def test(model, device, test_loader, test_acc, test_losses):
     correct = 0
     with torch.no_grad():
         for data, target in test_loader:
-            data, target = data.to(device), target.to(device)
+            data, target = data["image"].to(device), target["label"].to(device)
             output = model(data)
             # sum up batch loss
             # test_loss += F.nll_loss(output, target, reduction='sum').item()
