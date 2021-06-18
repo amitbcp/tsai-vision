@@ -11,10 +11,7 @@ def learner(model, train_loader, test_loader, epochs, device):
     train_acc = []
     test_acc = []
 
-    optimizer = optim.SGD(model.parameters(), lr=0.05,
-                          momentum=0.7)
-    
-    scheduler = lr_scheduler.StepLR(optimizer, step_size=9, gamma=0.1)
+    optimizer = optim.Adam(model.parameters(), lr=0.03)
     epoch = epochs
 
     for epoch in range(1, epoch + 1):
@@ -22,7 +19,7 @@ def learner(model, train_loader, test_loader, epochs, device):
 
         train(model, device, train_loader, optimizer,
                 train_acc, train_losses)
-        scheduler.step()
+
         test(model, device, test_loader, test_acc, test_losses)
 
     return (train_acc, train_losses, test_acc, test_losses), model

@@ -3,8 +3,10 @@ import torchvision
 from torchvision.utils import make_grid
 import torch
 import numpy as np
+
 DATA_MEAN = (0.4914, 0.4822, 0.4465)
 DATA_STD = (0.247, 0.2435, 0.2616)
+
 class Plots:
     def __init__(self):
         pass
@@ -77,6 +79,57 @@ class Plots:
       ax4.plot(test_losses, color="blue")
       plt.show()
 
+    def imshow(img):
+        images = img.cpu().numpy().transpose((1, 2, 0))
+        mean = np.asarray(DATA_MEAN)
+        std = np.asarray(DATA_STD)
+        # unnormalize the image
+        images = DATA_STD * images + DATA_MEAN
+        images = np.clip(images, 0, 1)
+        plt.imshow(images)
+        plt.show()
+
+    def misclassifications(model,test_loader,device):
+      wrong_images=[]
+      wrong_label=[]
+      correct_label=[]
+      with torch.no_grad():
+          for data, target in test_loader:
+              data, target = data["image"].to(device), target.to(device)
+              output = model(data)        
+              #pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+              _, predicted = torch.max(output.data, 1)
+              # c = (predicted == labels).squeeze()
+              # for i in range(4):
+              #   label = labels[i]
+              #   class_correct[label] += c[i].item()
+              #   class_total[label] += 1
+                
+              wrong_pred = (predicted.eq(target.view_as(predicted)) == False)
+              wrong_images.append(data[wrong_pred])
+              wrong_label.append(predicted[wrong_pred])
+              correct_label.append(target.view_as(predicted)[wrong_pred])  
+
+              wrong_predictions = list(zip(torch.cat(wrong_images),torch.cat(wrong_label),torch.cat(correct_label)))    
+          print(f'Total wrong predictions are {len(wrong_predictions)}')
+          
+          
+          fig = plt.figure(figsize=(2,2))
+          fig.tight_layout()
+          for i, (img, predicted, correct) in enumerate(wrong_predictions[:10]):
+            Plots.imshow(img)
+              # img, predicted, target = img.cpu().numpy(), predicted.cpu(), correct.cpu()
+              # img = torch.from_numpy(img)
+              # ax = fig.add_subplot(5, 2, i+1)
+              # ax.axis('off')
+              # ax.set_title(f'\nactual {target.item()}\npredicted {predicted.item()}',fontsize=10)  
+              # #plt.imshow(np.transpose(npimg, (1, 2, 0)))
+              # #ax.imshow(img.squeeze(), cmap='gray_r')  
+              # img = img / 2 + 0.5     # unnormalize
+              # npimg = img.numpy()
+              # plt.imshow(np.transpose(npimg, (1, 2, 0)))
+
+
     def miscImages(model,test_loader,device):
       classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -101,40 +154,12 @@ class Plots:
           fig.tight_layout()
           for i, (img, pred, correct) in enumerate(wrong_predictions[:50]):
             img, pred, target = img.cpu().numpy(), pred.cpu(), correct
+            # unnormalize the image
+            img = DATA_STD * img.transpose(1,2,0).squeeze() + DATA_MEAN
+            img = np.clip(img, 0, 1)
             ax = fig.add_subplot(5, 10, i+1)
             ax.axis('off')
             ax.set_title(f'\nactual {classes[target.item()]}\npredicted {classes[pred.item()]}',fontsize=10)
-            ax.imshow(img.transpose(1,2,0).squeeze(), cmap='gray_r',vmin=0, vmax=255)      
+            ax.imshow(img, cmap='gray_r',vmin=0, vmax=255)      
           plt.show()
-
-    def miscImages_1(model,  test_loader, device):
-      model.eval()
-      test_loss = 0
-      incorrect = 0
-      img_grid = []
-      fig = plt.figure(figsize=(8,10))
-      fig.tight_layout()
-      with torch.no_grad():
-          count = 10
-          for data, target in test_loader:
-              data, target = data.to(device), target.to(device)
-              output = model(data)
-              pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-
-              for i in range(len(target)):
-                if pred[i].item() != target[i]:
-                  incorrect += 1
-                  print('\n\n{} [ Predicted Value: {}, Actual Value: {} ]'.format(
-                  incorrect, pred[i].item(), target[i], ))
-                  ax = fig.add_subplot(5, 2, i)
-                  ax.axis('off')
-                  ax.imshow(data[i].cpu().numpy().transpose(1,2,0).squeeze(), cmap='gray_r')
-                  plt.show()
-                  count = count -1
-                if count == 0:
-                  break  
-              if count == 0:
-                break  
-
-
 

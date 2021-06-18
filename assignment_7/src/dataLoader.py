@@ -30,7 +30,7 @@ class Loader:
         trainTransform = A.Compose([
             A.HorizontalFlip(p=0.3),
             A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=30, interpolation=cv2.INTER_LINEAR, border_mode=cv2.BORDER_REFLECT_101, always_apply=False, p=0.5),
-            A.CoarseDropout(max_holes = 1, max_height=16, max_width=16, min_holes = 1, min_height=16, min_width=16, fill_value=DATA_MEAN, mask_fill_value = None),
+            A.CoarseDropout(max_holes = 1, max_height=16, max_width=16, min_holes = 1, min_height=16, min_width=16, fill_value=DATA_MEAN, mask_fill_value = None, p=0.3),
             A.Normalize(DATA_MEAN, DATA_STD),
             ToTensorV2(),
         ])
