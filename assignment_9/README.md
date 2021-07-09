@@ -1,5 +1,5 @@
 <br/>
-<h1 align="center">Session 8: Advanced training Concepts
+<h1 align="center">Session 9: RESNETS AND HIGHER RECEPTIVE FIELDS
 <br/>
 <!-- toc -->
     <br>
