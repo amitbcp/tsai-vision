@@ -3,7 +3,7 @@
 <br/>
 
 <!-- toc -->
-    <br>
+ 
     
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/RajamannarAanjaram/badges/)
@@ -27,4 +27,9 @@
 
 ## Open CV Assignment 
 
-Inference with YOLO was done using OpenCV. The reseults are available in the [here]("./Open CV/ReadMe.md")
+Inference with YOLO was done using OpenCV. The results and details are available in the [README](https://github.com/amitbcp/tsai-vision/blob/main/assignment_11/Open%20CV/ReadMe.md)
+
+
+## Custom Yolo Training
+
+The custom YOLO trianing and annotation details can be found in custom section of the repo. The link to the [README](https://github.com/amitbcp/tsai-vision/blob/main/assignment_11/Custom/README.md)
