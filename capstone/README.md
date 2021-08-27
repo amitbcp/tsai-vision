@@ -28,6 +28,8 @@ As a part of the CAPSTONE project you need to explain missing:
 We take this encoded image from a Convolution backbone network like ResNet-50 or ResNet-101.  The image is passed through the network which is used as a feature extractor. We remove the last few layers from RestNet along with the GAP & Classification layers before using it as a feature extractor.
 
 The extracted feature-map is then passed through a transition layer to reduce the dimension(in the channel dimension) and finally used as  \the enoded image along with positonal encoding for the transformer.
+    
+It can also be seen that the encoder is encoding the input image into query-key-value pairs, and the key-value pairs are passed to the decoder for cross-attention.
 
 #### WHAT DO WE DO HERE to generate NxMxH/32xW/32 maps ?
 
