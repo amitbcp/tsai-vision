@@ -37,7 +37,7 @@ We use the Cross Attention scores from the last decoder layer for every Object Q
 
 #### Where is the Res5 Block coming from which we use to concatenate ?
 
-The Res5/Res4/Res3/Res2 blocks are coming the backbone convolution networks we used initially to encode are input image. The concept is similar to the U-NET whereby we use it to upsample the encoded images to get mask over the whole image.
+The Res5/Res4/Res3/Res2 blocks are coming the backbone convolution networks we used initially to encode our input image. The concept is similar to the U-NET whereby we use it to upsample the encoded images to get mask over the whole image.
 
 
 ## Approach
