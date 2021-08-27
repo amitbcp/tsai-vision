@@ -25,13 +25,13 @@ As a part of the CAPSTONE project you need to explain missing:
 
 #### FROM WHERE DO WE TAKE THIS ENCODED IMAGE?
 
-We take this encoded image from a Convultion backbone network like ResNet-50 or ResNet-101.  The image is passed through the network which is used as a feature extractor. We remove the las few layers from RestNet along with the GAP & Classification layers.
+We take this encoded image from a Convolution backbone network like ResNet-50 or ResNet-101.  The image is passed through the network which is used as a feature extractor. We remove the last few layers from RestNet along with the GAP & Classification layers before using it as a feature extractor.
 
-The extract feature-map is then passed through a transition layer to reduc the dimension and finally used as  the enoded image along with positonal encoding for the transformer.
+The extracted feature-map is then passed through a transition layer to reduce the dimension(in the channel dimension) and finally used as  \the enoded image along with positonal encoding for the transformer.
 
 #### WHAT DO WE DO HERE to generate NxMxH/32xW/32 maps ?
 
-We use the Cross Attention scores from the last decoder layer for every Object Query (Object Embedding) and overlay with the encoded input. The attention focuses on the corner of each to object to predict tight bounding box. The result is that each object query (N) produces Attention feature maps which w use further for panoptic segmentation.
+We use the Cross Attention scores from the last decoder layer for every Object Query (Object Embedding) and overlay with the encoded input from the encoder. The attention focuses on the corner of each to object to predict tight bounding box. The result is that each object query (N) produces Attention feature maps which we use further for panoptic segmentation.
 
 #### Where is the Res5 Block coming from which we use to concatenate ?
 
@@ -44,7 +44,7 @@ To solve the problem of panoptic segmentation with DETR for a custom dataset, th
 
 1. Since our custom dataset has only one label per image, we will use a pretrained DETR model on COCO to annotate the image.
 2. Once the image is annotated with COCO lables, we will overlay it with our Custom Annotate for the required class.
-3. Next, we wil create Bounding Boxes in the image using the segementation maskd. This finally prepares our dataset. 
+3. Next, we wil create Bounding Boxes in the image using the segementation masks. This finally prepares our dataset. 
 4. Finally split the data into train & test set in 80-20 split.
 5. For Model training, I plan to use HuggingFace transformer library.
 6. First the Object Detection is trained and we save the checkpoint , on the custom dataset.
