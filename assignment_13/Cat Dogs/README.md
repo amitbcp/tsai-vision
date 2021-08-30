@@ -123,7 +123,7 @@ HBox(children=(FloatProgress(value=0.0, max=313.0), HTML(value='')))
 Epoch : 5 - loss : 0.6936 - acc: 0.5045 - val_loss : 0.6924 - val_acc: 0.5342
 ```
     
-Notebook [link](https://github.com/RajamannarAanjaram/TSAI-Assignment/blob/master/13%20ViT/Cat%20Dogs/CatDogViT.ipynb):- [CatDogViT](https://github.com/RajamannarAanjaram/TSAI-Assignment/blob/master/13%20ViT/Cat%20Dogs/CatDogViT.ipynb)
+Notebook [link](https://github.com/amitbcp/tsai-vision/blob/main/assignment_13/Cat%20Dogs/CatDogViT.ipynb):- [CatDogViT](https://github.com/amitbcp/tsai-vision/blob/main/assignment_13/Cat%20Dogs/CatDogViT.ipynb)
     
 ### Model using timm library- Transfer Learing
  
