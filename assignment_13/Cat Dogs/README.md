@@ -222,7 +222,7 @@ Epoch : 19 - loss : 0.0326 - acc: 0.9873 - val_loss : 0.0796 - val_acc: 0.9757
 Epoch : 20 - loss : 0.0329 - acc: 0.9874 - val_loss : 0.0591 - val_acc: 0.9778
 ```
                                        
-Notebook [link](https://github.com/RajamannarAanjaram/TSAI-Assignment/blob/master/13%20ViT/Cat%20Dogs/CatDogs_TransferLearning.ipynb):- [CatDogs-TransferLearning.ipynb](https://github.com/RajamannarAanjaram/TSAI-Assignment/blob/master/13%20ViT/Cat%20Dogs/CatDogs_TransferLearning.ipynb)
+Notebook [link](https://github.com/amitbcp/tsai-vision/blob/main/assignment_13/Cat%20Dogs/CatDogs_TransferLearning.ipynb):- [CatDogs-TransferLearning](https://github.com/amitbcp/tsai-vision/blob/main/assignment_13/Cat%20Dogs/CatDogs_TransferLearning.ipynb)
                                        
 ### References
 Timm package:
