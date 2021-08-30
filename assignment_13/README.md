@@ -1,5 +1,5 @@
 <br/>
-<h1 align="center">Session 14: DETR: End-to-End Object Detection with Transformers - PART 1
+<h1 align="center">Session 13: ViT - An Image is worth 16x16 words
 <br/>
 <!-- toc -->
     <br>
@@ -24,63 +24,105 @@
 
 <!-- toc -->
 
-## DETR
+### Intution of Classes employed in VIT
 
-In am object detection architecture from Facebook for End-to-End Object Detection with Transformers. The architecture is stable without requiring handcrafted configs on number of anchor boxes, anchor box sizes, NMS.
-It was build on the intersection of NLP & Computer Vision and changes the horizon of how we detect objects by using Object Queries & Bi-partite loss, hence translating the object detection task to an image-to-set problem.
+### Class :: PatchEmbeddings(nn.Module)
+Conversion of an image size to the patch embeddings
+1. Takes an input image and check if its a tuple and converts, if not one. 
+2. Calculates the number of patches required.
+3. Captures the batch size, no.of channels and image dimensions from the pixel_vlues.shape 
+4. Check for the proper dimensions of the image.
+5. Projects the image to a required size(passing it to a 2D network), followed by flatten and transpose.
 
-The training pipeline can be summarised into some major blocks as :
-- Calculate image patch features from a Convolution Backbone like ResNet
-- Use Encoder-Decoder Transformers to encapsulation and find information using Self-Attention & Cross Attention
-- Use bi-partite matchine between predicted and ground-truth objects to remove false or extra detection's.
+### class :: ViTEmbeddings(nn.Module)
+Construct the CLS token, position and patch embeddings.
+1. ViTEmbeddings expects a predefined configuration file with different attributes of image and batch
+2. Construction of CLS tokens, with random numbers of size mentioned in the config.hidden_size
+3. Construction of Patchembeddings with image_size, patch_size, num_channels, embed_dim as configured in the config.
+4. Construction of position embeddings for num_patches+1
+5. Concatanation of cls_tokens, patch_embeddings.
+6. Add the postion_embeddings to all the patch_embeddings.
+7. returns the embeddings.
 
-It makes it really easy to use without any custom layers. The framework easy easy to extend for other tasks in computer vision as well.
+### class :: ViTConfig
+Construction of Confiuration Object.
 
-### Encoder-Decoder Block
-
-DETR uses both Encoder-Decoder block compared to ViT which only used the Encoder Block.
-
-#### Encoder
-
-- The encoder receives the image patches (feature map) from a Convolution backbone which is of high dimension.
-- It uses a 1x1 convolution to reduce the number of channels and then flattens it.
-- Then a fixed positional embedding is added which can either be sine wave or a learned embedding. It makes the model permutation invariant
-- The encoder layer consists of a standard architecture made of multi-head self-attention layer and a feed forward network with RELU activation.
-- Finally we get the Key-Value-Query matrix . The Key & Value serve as a memory bank which is passed to the decoder block
-
-#### Decoder
-
-- The decoder block is a standard transformer decider with the only dfference that queries are not processed sequentially but in parallel.
-- It mean that all the objects are detected in one shot from by the decoder.
-- The deocer has three inputs :
-    - The Key-Value embedding from the encoder's output
-    - Input positional embedding which is shared with the Encoder
-    - Output positional embeddin which are the Object queries to find where are the object located
-- The decoder receives queries (initially set to zero), object queries and key-value from encoder and finally locates objects (class labels) and their bounding boxes through multi-head self attention and encoder-decoder cross attention.
-
-### Object Queries
-
-- The decoder receives a learnable object query (default 100) which is the output positional embedding.
-- These object queries are responsible to find objects in the image via interacting with the Key-Value output of the encoder
-- The object queries work independently and are decoded into BBox corrdinates and class labels via a  feed forward network resulting in N (100 here) final predictions.
-- This infact eliminates the need to NMS as the object queries learn to find the best object irrespective of class, i.e. the Object Queries are not tied to find only one class.
-- Using self and cross attention, the model finds the object based on entire image context using the pair wise relation between them.
-
-### Bi-partite Loss & it's Requirement
-
-- The final predictions are unordered and not in the same order of the ground truth we have.
-- This is where Bi-partite matching and loss helps us solve the problem.
-- It reduces the problem to set problem in a Biparite Graph. Whereby, the best predictions are matched to the best groundtruth, and there can exist only one to one mapping.
-- Thus we have to find the best predicted box for a given ground truth. This eliminates need of NMS & Anchor boxes
-- We also have to inlcude an additional class of No Object for the other predicted boxes to be matched to.
-- The matching is between predicted and ground truth is done across permutations of N elements so as to get the lowest cost.
-- The matching takes into consideration both the class labels (classification) and bounding boxes (regression)
-- Finally Hungarian loss is used to compute the cost of matching
+Exemplification of Config is as follows:
 
 
+attention_probs_dropout_prob: 0.0,
+ 
+ hidden_act: 'gelu',
 
-## Custom Notebook
+ hidden_dropout_prob: 0.0,
 
-Link :
+ hidden_size: 768,
 
-### Model Results
+ image_size: 224,
+
+ initializer_range: 0.02,
+
+ intermediate_size: 3072,
+
+ layer_norm_eps: 1e-12,
+
+ num_attention_heads: 12,
+
+ num_channels: 3,
+
+ num_hidden_layers: 12,
+
+ patch_size: 16
+
+ ### class :: ViTSelfAttention(nn.Module)
+Costruction of self Attention matrix.
+1. Check if the hidden_size is divisible by the num_attention_heads.
+2. Initialising the num_attention_heads, attention_head_size, all_head_size as configured in the config.
+3. Creating the query, key and Value matrices of size hidden_size, all_head_size
+4. Reshaping the matrices to required sizes by Permute operation.
+5. Make the query, key and Value layers.
+6. Multiplication of query and key matrices to get the attention scores.
+7. Normalize the attention scores.
+8. Making the context_layer which is a Product of attention_probs and value_layer.
+9. Reshaping the context_layer by permute followed by "Contiguous"
+
+### class :: ViTSelfOutput(nn.Module)
+This class specifies the Linear layer block.
+1. Making the dense layers, takes hidden_size and gives layer of hidden_size.
+
+### class :: ViTAttention(nn.Module)
+Class Specifying the ViT Attention layer.
+1. get the ViTSelfAttention object, ViTSelfOutput and pruned_heads(Required to remove the unwanted heads).
+2. get the self_outputs from the FC layer.
+3. Get the attention_output layer
+4. Add the attentions if we return the outputs
+
+### class ViTIntermediate(nn.Module)
+Specifies the ViTintermediate Linear layer
+1. Intakes the hidden_states and dense follwed by gelu activation
+
+### class :: ViTOutput(nn.Module):
+This class specifies the ViTOutput layer
+1. Expansion of the intermediate layers
+
+### class :: ViTLayer(nn.Module)
+This corresponds to the Block class in the timm implementation
+1. Get the ViTAttention, ViTIntermediate and ViTOutput objects, layernorm_before and layer_norm after.
+2. Get the self_attention_outputs which intakes the layernorm_before, head_mask and output_attentions.
+3. Add self attentions 
+4. Add the skip connections.
+5. Layernorm is also applied after self-attention
+6. return the outputs.
+
+### class ViTEncoder(nn.Module):
+This Class specifies the overall VIT layer
+1. Get all the hidden states
+2. Layer outputs are obtained through the layer module using hidden_states, layer_head_masak, ouput_attention
+3. Return all the hidden states required.
+
+### class ViTPooler(nn.Module):
+This class specifies pooling the model.
+1. We "pool" the model by simply taking the hidden state corresponding to the first token 
+
+### class ViTModel()
+This class specifies the actual model for ViT training
